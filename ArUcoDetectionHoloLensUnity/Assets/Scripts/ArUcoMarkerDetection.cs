@@ -33,6 +33,7 @@ namespace ArUcoDetectionHoloLensUnity
     public class ArUcoMarkerDetection : MonoBehaviour
     {
         public Text myText;
+        public Text infoText;
 
         public CvUtils.DeviceTypeUnity deviceType;
 
@@ -70,6 +71,10 @@ namespace ArUcoDetectionHoloLensUnity
         /// </summary>
         private List<GameObject> _markerGOs;
         private bool _mediaFrameSourceGroupsStarted = false;
+
+        private Vector3 boardPos;
+        private int temp;
+        private Quaternion boardRot;
 
 #if ENABLE_WINMD_SUPPORT
         // Enable winmd support to include winmd files. Will not
@@ -284,6 +289,12 @@ namespace ArUcoDetectionHoloLensUnity
                     // Scale the game object to the size of the markers
                     thisGo.transform.localScale = new Vector3(markerSize, markerSize, markerSize);
                     _markerGOs.Add(thisGo);
+                    
+                    boardPos = CvUtils.GetVectorFromMatrix(transformUnityWorld);
+                    temp = 0;
+                    boardRot = CvUtils.GetQuatFromMatrix(transformUnityWorld);
+
+                    infoText.text = "Position: " + boardPos.ToString("F2") + ", " + "Quat: " + boardRot.ToString("F2");
                 }
             }
             
